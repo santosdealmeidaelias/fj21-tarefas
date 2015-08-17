@@ -12,14 +12,12 @@
 
 <body>
 	<script type="text/javascript">
-	    function finalizaAgora(id) {
-	      $.post("finalizaTarefa", {'id' : id}, function() {
-	        // selecionando o elemento html através da 
-	        // ID e alterando o HTML dele 
-	        $("#tarefa_"+id).html("Finalizado");
-	      });
-	    }
- 	 </script>
+  function finalizaAgora(id) {
+    $.post("finalizaTarefa", {'id' : id}, function(resposta) {
+      $("#tarefa_"+id).html(resposta);
+    });
+  }
+</script>
   
 	<a href="novaTarefa">Criar nova tarefa</a>
 
@@ -36,12 +34,12 @@
 			<th>Alterar</th>
 		</tr>
 		<c:forEach items="${tarefas}" var="tarefa">
-			<tr>
+			<tr id="tarefa_${tarefa.id}">
 				<td>${tarefa.id}</td>
 				<td>${tarefa.descricao}</td>
 				
 				<c:if test="${tarefa.finalizado eq false}">
-					<td id="tarefa_${tarefa.id}"><a href="#" onClick="finalizaAgora(${tarefa.id})"> Finaliza agora! </a></td>
+					<td><a href="#" onClick="finalizaAgora(${tarefa.id})"> Finaliza agora! </a></td>
 				</c:if>
 				
 				<c:if test="${tarefa.finalizado eq true}">
